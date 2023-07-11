@@ -37,5 +37,5 @@ test {
 
 application {
     // Define the main class for the application.
-    mainClass = 'justkode.kafka.event.producer.App'
+    mainClass = 'justkode.kafka.event.producer.KafkaProducer'
 }
