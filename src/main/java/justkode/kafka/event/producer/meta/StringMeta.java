@@ -8,13 +8,13 @@ import java.util.List;
 @Getter @Setter
 public class StringMeta {
     private String name;
-    private Boolean isRandomString;
+    private Boolean isManual;
     private List<String> manualStrings;
     private Integer minLength;
     private Integer maxLength;
 
-    public boolean isValid() {
-        if (isRandomString) {
+    public Boolean isValid() {
+        if (!isManual) {
             return minLength <= maxLength && minLength >= 0;
         } else {
             return manualStrings != null;
