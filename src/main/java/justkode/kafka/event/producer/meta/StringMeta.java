@@ -13,7 +13,7 @@ public class StringMeta {
     private Integer minLength;
     private Integer maxLength;
 
-    private boolean isValid() {
+    public boolean isValid() {
         if (isRandomString) {
             return minLength <= maxLength && minLength >= 0;
         } else {
