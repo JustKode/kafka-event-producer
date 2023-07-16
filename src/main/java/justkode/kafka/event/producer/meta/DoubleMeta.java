@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter @Setter
 @AllArgsConstructor
-public class DoubleMeta implements Meta {
+public class DoubleMeta extends Meta {
     private String name;
     private Boolean isManual;
     private List<Integer> manualIntegers;
@@ -25,6 +26,10 @@ public class DoubleMeta implements Meta {
 
     @Override
     public Double getRandomValue() {
+        return null;
+    }
+
+    public static DoubleMeta getMetaByMap(Map<String, Object> map) {
         return null;
     }
 }
