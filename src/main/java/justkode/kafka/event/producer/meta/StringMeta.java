@@ -1,12 +1,14 @@
 package justkode.kafka.event.producer.meta;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter @Setter
-public class StringMeta {
+@AllArgsConstructor
+public class StringMeta implements Meta {
     private String name;
     private Boolean isManual;
     private List<String> manualStrings;
@@ -19,5 +21,9 @@ public class StringMeta {
         } else {
             return manualStrings != null;
         }
+    }
+
+    public String getRandomValue() {
+        return null;
     }
 }

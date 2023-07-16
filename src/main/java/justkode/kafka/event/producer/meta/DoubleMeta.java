@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter @Setter
 @AllArgsConstructor
-public class DoubleMeta {
+public class DoubleMeta implements Meta {
     private String name;
     private Boolean isManual;
     private List<Integer> manualIntegers;
@@ -21,5 +21,10 @@ public class DoubleMeta {
         } else {
             return manualIntegers != null;
         }
+    }
+
+    @Override
+    public Double getRandomValue() {
+        return null;
     }
 }
