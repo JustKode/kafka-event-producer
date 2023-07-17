@@ -13,15 +13,16 @@ import java.util.Map;
 public class LongMeta extends Meta {
     private String name;
     private Boolean isManual;
-    private List<Long> manualIntegers;
+    private List<Long> manualValues;
     private Long minValue;
     private Long maxValue;
 
-    public Boolean isValid() {
-        if (!isManual) {
-            return minValue <= maxValue;
+    public void validCheck(String key) {
+        String baseMessage = String.format("meta data of '%s' is not valid: ", key);
+        if (!isManual && minValue > maxValue) {
+            throw new RuntimeException(baseMessage + "min_value must be lower or equal than max_value.");
         } else {
-            return manualIntegers != null;
+            throw new RuntimeException(baseMessage + "If is_manual is true, manual_values must be containing values.");
         }
     }
 
@@ -30,7 +31,7 @@ public class LongMeta extends Meta {
         return null;
     }
 
-    public static LongMeta getMetaByMap(Map<String, Object> map) {
+    public static LongMeta getMetaByMap(String key, Map<String, Object> map) {
         return null;
     }
 }
