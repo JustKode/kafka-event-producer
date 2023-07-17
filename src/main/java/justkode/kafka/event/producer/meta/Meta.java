@@ -7,6 +7,6 @@ public abstract class Meta {
     public abstract Object getRandomValue();
 
     public static Meta getMetaByMap(Map<String, Object> map) {
-        return null;
+        throw new RuntimeException("Subclass of Meta needs to be implements of getMetaByMap");
     }
 }
