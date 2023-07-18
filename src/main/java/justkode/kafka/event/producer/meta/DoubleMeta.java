@@ -10,7 +10,6 @@ import java.util.Map;
 @Getter @Setter
 @AllArgsConstructor
 public class DoubleMeta extends Meta {
-    private String name;
     private Boolean isManual;
     private List<Double> manualValues;
     private Double minValue;
@@ -31,7 +30,6 @@ public class DoubleMeta extends Meta {
     }
 
     public static DoubleMeta getMetaByMap(String key, Map<String, Object> map) {
-        String name = (String) map.get("name");
         Boolean isManual = (Boolean) map.get("is_manual");
         List<Double> manualValues = (List<Double>) map.get("manual_doubles");
         Double minValue = (Double) map.get("min_value");
@@ -41,7 +39,7 @@ public class DoubleMeta extends Meta {
             throw new RuntimeException("manual_integers doesn't exists.");
         }
 
-        DoubleMeta doubleMeta = new DoubleMeta(name, isManual, manualValues, minValue, maxValue);
+        DoubleMeta doubleMeta = new DoubleMeta(isManual, manualValues, minValue, maxValue);
         doubleMeta.validCheck(key);
         return doubleMeta;
     }

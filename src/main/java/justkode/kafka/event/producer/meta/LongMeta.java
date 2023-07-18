@@ -11,7 +11,6 @@ import java.util.Map;
 @Setter
 @AllArgsConstructor
 public class LongMeta extends Meta {
-    private String name;
     private Boolean isManual;
     private List<Long> manualValues;
     private Long minValue;
@@ -32,7 +31,18 @@ public class LongMeta extends Meta {
     }
 
     public static LongMeta getMetaByMap(String key, Map<String, Object> map) {
-        return null;
+        Boolean isManual = (Boolean) map.get("is_manual");
+        List<Long> manualValues = (List<Long>) map.get("manual_values");
+        Long minValue = (Long) map.get("min_value");
+        Long maxValue = (Long) map.get("max_value");
+
+        if (isManual && manualValues != null) {
+            throw new RuntimeException("manual_integers doesn't exists.");
+        }
+        LongMeta longMeta = new LongMeta(isManual, manualValues, minValue, maxValue);
+        longMeta.validCheck(key);
+
+        return longMeta;
     }
 }
 
