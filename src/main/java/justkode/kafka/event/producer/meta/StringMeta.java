@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,10 @@ public class StringMeta extends Meta {
     }
 
     public String getRandomValue() {
-        return null;
+        int length = random.nextInt(maxLength - minLength) + minLength;
+        byte[] array = new byte[length];
+        random.nextBytes(array);
+        return new String(array, Charset.forName("UTF-8"));
     }
 
     public static StringMeta getMetaByMap(String key, Map<String, Object> map) {

@@ -25,7 +25,7 @@ public class FloatMeta extends Meta {
     }
     @Override
     public Float getRandomValue() {
-        return null;
+        return random.nextFloat() % (maxValue - minValue) + minValue;
     }
 
     public static FloatMeta getMetaByMap(String key, Map<String, Object> map) {

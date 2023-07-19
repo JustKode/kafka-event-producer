@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Getter @Setter
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class IntegerMeta extends Meta {
 
     @Override
     public Integer getRandomValue() {
-        return null;
+        return random.nextInt(maxValue - minValue) + minValue;
     }
 
     public static IntegerMeta getMetaByMap(String key, Map<String, Object> map) {

@@ -26,7 +26,7 @@ public class DoubleMeta extends Meta {
 
     @Override
     public Double getRandomValue() {
-        return null;
+        return random.nextDouble() % (maxValue - minValue) + minValue;
     }
 
     public static DoubleMeta getMetaByMap(String key, Map<String, Object> map) {

@@ -27,7 +27,7 @@ public class LongMeta extends Meta {
 
     @Override
     public Long getRandomValue() {
-        return null;
+        return random.nextLong() % (maxValue - minValue) + minValue;
     }
 
     public static LongMeta getMetaByMap(String key, Map<String, Object> map) {
