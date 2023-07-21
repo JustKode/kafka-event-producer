@@ -21,7 +21,7 @@ public class FloatMeta extends Meta {
         String baseMessage = String.format("meta data of '%s' is not valid: ", key);
         if (!isManual && minValue > maxValue) {
             throw new RuntimeException(baseMessage + "min_value must be lower or equal than max_value.");
-        } else if (isManual && ((manualValues != null) || (manualValues.size() == 0))) {
+        } else if (isManual && ((manualValues == null) || (manualValues.size() == 0))) {
             throw new RuntimeException(baseMessage + "If is_manual is true, manual_values must be containing values.");
         }
     }

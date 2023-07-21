@@ -22,7 +22,7 @@ public class StringMeta extends Meta {
         String baseMessage = String.format("meta data of '%s' is not valid: ", key);
         if (!isManual && minLength > maxLength) {
             throw new RuntimeException(baseMessage + "min_length must be lower or equal than max_length.");
-        } else if (isManual && ((manualValues != null) || (manualValues.size() == 0))) {
+        } else if (isManual && ((manualValues == null) || (manualValues.size() == 0))) {
             throw new RuntimeException(baseMessage + "If is_manual is true, manual_values must be containing values.");
         }
     }
