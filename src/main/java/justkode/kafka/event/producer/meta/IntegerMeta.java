@@ -1,13 +1,14 @@
 package justkode.kafka.event.producer.meta;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
+@Builder
 @Getter @Setter
 @AllArgsConstructor
 public class IntegerMeta extends Meta {

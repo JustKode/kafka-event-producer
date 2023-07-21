@@ -1,14 +1,15 @@
 package justkode.kafka.event.producer.meta;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
 
-@Getter
-@Setter
+@Builder
+@Getter @Setter
 @AllArgsConstructor
 public class LongMeta extends Meta {
     private Boolean isManual;
