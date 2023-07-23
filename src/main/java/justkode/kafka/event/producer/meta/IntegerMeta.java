@@ -3,13 +3,12 @@ package justkode.kafka.event.producer.meta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
 
 @Builder
-@Getter @Setter
+@Getter
 @AllArgsConstructor
 public class IntegerMeta extends Meta {
     private Boolean isManual;
@@ -29,7 +28,13 @@ public class IntegerMeta extends Meta {
 
     @Override
     public Integer getRandomValue() {
-        return random.nextInt(maxValue - minValue) + minValue;
+        if (isManual) {
+            return manualValues.get(random.nextInt(manualValues.size()));
+        } else {
+            if (maxValue == minValue)
+                return minValue;
+            return random.nextInt(maxValue - minValue) + minValue;
+        }
     }
 
     public static IntegerMeta getMetaByMap(String key, Map<String, Object> map) {
