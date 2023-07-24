@@ -8,6 +8,8 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Math.abs;
+
 @Builder
 @Getter @Setter
 @AllArgsConstructor
@@ -28,7 +30,13 @@ public class LongMeta extends Meta {
 
     @Override
     public Long getRandomValue() {
-        return random.nextLong() % (maxValue - minValue) + minValue;
+        if (isManual) {
+            return manualValues.get(random.nextInt(manualValues.size()));
+        } else {
+            if (maxValue == minValue)
+                return minValue;
+            return abs(random.nextLong() % (maxValue - minValue)) + minValue;
+        }
     }
 
     public static LongMeta getMetaByMap(String key, Map<String, Object> map) {
