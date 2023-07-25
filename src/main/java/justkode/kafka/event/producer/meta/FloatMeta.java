@@ -8,6 +8,8 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Math.abs;
+
 @Builder
 @Getter @Setter
 @AllArgsConstructor
@@ -27,7 +29,13 @@ public class FloatMeta extends Meta {
     }
     @Override
     public Float getRandomValue() {
-        return random.nextFloat() % (maxValue - minValue) + minValue;
+        if (isManual) {
+            return manualValues.get(random.nextInt(manualValues.size()));
+        } else {
+            if (maxValue.equals(minValue))
+                return minValue;
+            return abs(random.nextFloat() % (maxValue - minValue)) + minValue;
+        }
     }
 
     public static FloatMeta getMetaByMap(String key, Map<String, Object> map) {
