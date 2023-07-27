@@ -20,18 +20,33 @@ public class StringMeta extends Meta {
 
     public void validCheck(String key) {
         String baseMessage = String.format("meta data of '%s' is not valid: ", key);
-        if (!isManual && minLength > maxLength) {
-            throw new RuntimeException(baseMessage + "min_length must be lower or equal than max_length.");
-        } else if (isManual && ((manualValues == null) || (manualValues.size() == 0))) {
+        if (!isManual) {
+            if (minLength > maxLength)
+                throw new RuntimeException(baseMessage + "min_length must be lower or equal than max_length.");
+            else if (minLength < 0) {
+                throw new RuntimeException(baseMessage + "min_length muse be higher or equal than 0.");
+            }
+        } else if (manualValues == null || manualValues.size() == 0) {
             throw new RuntimeException(baseMessage + "If is_manual is true, manual_values must be containing values.");
         }
     }
 
     public String getRandomValue() {
-        int length = random.nextInt(maxLength - minLength) + minLength;
-        byte[] array = new byte[length];
-        random.nextBytes(array);
-        return new String(array, Charset.forName("UTF-8"));
+        if (isManual)
+            return manualValues.get(random.nextInt(manualValues.size()));
+        else {
+            int length;
+
+            if (maxLength.equals(minLength))
+                length = minLength;
+            else
+                length = random.nextInt(maxLength - minLength) + minLength;
+
+            return random.ints(97, 122 + 1)
+                    .limit(length)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+        }
     }
 
     public static StringMeta getMetaByMap(String key, Map<String, Object> map) {
