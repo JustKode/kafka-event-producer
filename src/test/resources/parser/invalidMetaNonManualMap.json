@@ -1,0 +1,16 @@
+{
+  "id": {
+    "type": "int",
+    "is_manual": false
+  },
+  "score": {
+    "type": "float",
+    "is_manual": false,
+    "min_value": 1.0
+  },
+  "serial_number": {
+    "type": "string",
+    "is_manual": false,
+    "max_length": 10
+  }
+}
