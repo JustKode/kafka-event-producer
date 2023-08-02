@@ -3,6 +3,8 @@ package justkode.kafka.event.producer.meta;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,13 +16,13 @@ class StringMetaTest {
     void validCheck() {
         assertDoesNotThrow(() -> StringMeta.builder().isManual(false).minLength(1).maxLength(3).build().validCheck(""));
         assertDoesNotThrow(() -> StringMeta.builder().isManual(false).minLength(1).maxLength(1).build().validCheck(""));
-        assertDoesNotThrow(() -> StringMeta.builder().isManual(true).manualValues(List.of("a", "b", "c", "d")).build().validCheck(""));
+        assertDoesNotThrow(() -> StringMeta.builder().isManual(true).manualValues(Arrays.asList("a", "b", "c", "d")).build().validCheck(""));
 
         assertThrows(RuntimeException.class, () -> StringMeta.builder().isManual(false).minLength(1).maxLength(0).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> StringMeta.builder().isManual(false).minLength(-1).maxLength(1).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> StringMeta.builder().isManual(false).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> StringMeta.builder().isManual(true).build().validCheck(""));
-        assertThrows(RuntimeException.class, () -> StringMeta.builder().isManual(true).manualValues(List.of()).build().validCheck(""));
+        assertThrows(RuntimeException.class, () -> StringMeta.builder().isManual(true).manualValues(Collections.emptyList()).build().validCheck(""));
 
     }
 

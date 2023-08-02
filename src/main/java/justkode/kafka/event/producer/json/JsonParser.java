@@ -9,7 +9,7 @@ import java.util.*;
 public class JsonParser {
     public static Map<String, Meta> getJsonToMetaMap(String jsonStr) {
         Gson gson = new Gson();
-        TypeToken<Map<String, Map<String, Object>>> mapType = new TypeToken<>(){};
+        TypeToken<Map<String, Map<String, Object>>> mapType = new TypeToken<Map<String, Map<String, Object>>>(){};
 
         Map<String, Meta> metaMap = new HashMap<>();
         Map<String, Map<String, Object>> json = gson.fromJson(jsonStr, mapType);

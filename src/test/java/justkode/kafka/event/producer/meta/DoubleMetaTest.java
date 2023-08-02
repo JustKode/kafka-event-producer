@@ -3,6 +3,9 @@ package justkode.kafka.event.producer.meta;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,12 +17,12 @@ class DoubleMetaTest {
     void validCheck() {
         assertDoesNotThrow(() -> DoubleMeta.builder().isManual(false).minValue(1.0).maxValue(3.0).build().validCheck(""));
         assertDoesNotThrow(() -> DoubleMeta.builder().isManual(false).minValue(1.0).maxValue(1.0).build().validCheck(""));
-        assertDoesNotThrow(() -> DoubleMeta.builder().isManual(true).manualValues(List.of(1.1, 1.2, 1.3, 1.4)).build().validCheck(""));
+        assertDoesNotThrow(() -> DoubleMeta.builder().isManual(true).manualValues(Arrays.asList(1.0, 1.1, 1.2, 1.3)).build().validCheck(""));
 
         assertThrows(RuntimeException.class, () -> DoubleMeta.builder().isManual(false).minValue(1.5).maxValue(0.5).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> DoubleMeta.builder().isManual(false).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> DoubleMeta.builder().isManual(true).build().validCheck(""));
-        assertThrows(RuntimeException.class, () -> DoubleMeta.builder().isManual(true).manualValues(List.of()).build().validCheck(""));
+        assertThrows(RuntimeException.class, () -> DoubleMeta.builder().isManual(true).manualValues(Collections.emptyList()).build().validCheck(""));
     }
 
     @Provide

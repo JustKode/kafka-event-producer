@@ -3,6 +3,8 @@ package justkode.kafka.event.producer.meta;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,12 +16,12 @@ class FloatMetaTest {
     void validCheck() {
         assertDoesNotThrow(() -> FloatMeta.builder().isManual(false).minValue(1.0f).maxValue(3.0f).build().validCheck(""));
         assertDoesNotThrow(() -> FloatMeta.builder().isManual(false).minValue(1.0f).maxValue(1.0f).build().validCheck(""));
-        assertDoesNotThrow(() -> FloatMeta.builder().isManual(true).manualValues(List.of(1.1f, 1.2f, 1.3f, 1.4f)).build().validCheck(""));
+        assertDoesNotThrow(() -> FloatMeta.builder().isManual(true).manualValues(Arrays.asList(1.1f, 1.2f, 1.3f, 1.4f)).build().validCheck(""));
 
         assertThrows(RuntimeException.class, () -> FloatMeta.builder().isManual(false).minValue(1.5f).maxValue(0.5f).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> FloatMeta.builder().isManual(false).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> FloatMeta.builder().isManual(true).build().validCheck(""));
-        assertThrows(RuntimeException.class, () -> FloatMeta.builder().isManual(true).manualValues(List.of()).build().validCheck(""));
+        assertThrows(RuntimeException.class, () -> FloatMeta.builder().isManual(true).manualValues(Collections.emptyList()).build().validCheck(""));
     }
 
     @Provide

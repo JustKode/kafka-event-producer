@@ -3,6 +3,8 @@ package justkode.kafka.event.producer.meta;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,12 +16,12 @@ class IntegerMetaTest {
     void validCheck() {
         assertDoesNotThrow(() -> IntegerMeta.builder().isManual(false).minValue(1).maxValue(3).build().validCheck(""));
         assertDoesNotThrow(() -> IntegerMeta.builder().isManual(false).minValue(1).maxValue(1).build().validCheck(""));
-        assertDoesNotThrow(() -> IntegerMeta.builder().isManual(true).manualValues(List.of(1,2,3,4)).build().validCheck(""));
+        assertDoesNotThrow(() -> IntegerMeta.builder().isManual(true).manualValues(Arrays.asList(1,2,3,4)).build().validCheck(""));
 
         assertThrows(RuntimeException.class, () -> IntegerMeta.builder().isManual(false).minValue(1).maxValue(0).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> IntegerMeta.builder().isManual(false).build().validCheck(""));
         assertThrows(RuntimeException.class, () -> IntegerMeta.builder().isManual(true).build().validCheck(""));
-        assertThrows(RuntimeException.class, () -> IntegerMeta.builder().isManual(true).manualValues(List.of()).build().validCheck(""));
+        assertThrows(RuntimeException.class, () -> IntegerMeta.builder().isManual(true).manualValues(Collections.emptyList()).build().validCheck(""));
     }
 
     @Provide
