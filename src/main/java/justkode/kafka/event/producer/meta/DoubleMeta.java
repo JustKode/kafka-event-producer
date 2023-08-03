@@ -45,7 +45,7 @@ public class DoubleMeta extends Meta {
         Double minValue = (Double) map.get("min_value");
         Double maxValue = (Double) map.get("max_value");
 
-        if (isManual && manualValues != null) {
+        if (isManual && manualValues == null) {
             throw new RuntimeException("manual_integers doesn't exists.");
         }
 

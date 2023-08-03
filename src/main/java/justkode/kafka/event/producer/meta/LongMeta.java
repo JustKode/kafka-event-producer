@@ -45,7 +45,7 @@ public class LongMeta extends Meta {
         Long minValue = (Long) map.get("min_value");
         Long maxValue = (Long) map.get("max_value");
 
-        if (isManual && manualValues != null) {
+        if (isManual && manualValues == null) {
             throw new RuntimeException("manual_integers doesn't exists.");
         }
         LongMeta longMeta = new LongMeta(isManual, manualValues, minValue, maxValue);

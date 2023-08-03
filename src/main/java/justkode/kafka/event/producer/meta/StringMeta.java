@@ -55,7 +55,7 @@ public class StringMeta extends Meta {
         Integer minLength = (Integer) map.get("min_length");
         Integer maxLength = (Integer) map.get("max_length");
 
-        if (isManual && manualValues != null) {
+        if (isManual && manualValues == null) {
             throw new RuntimeException("manual_integers doesn't exists.");
         }
         StringMeta stringMeta = new StringMeta(isManual, manualValues, minLength, maxLength);

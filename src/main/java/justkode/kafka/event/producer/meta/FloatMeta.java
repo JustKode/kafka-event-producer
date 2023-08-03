@@ -44,7 +44,7 @@ public class FloatMeta extends Meta {
         Float minValue = (Float) map.get("min_value");
         Float maxValue = (Float) map.get("max_value");
 
-        if (isManual && manualValues != null) {
+        if (isManual && manualValues == null) {
             throw new RuntimeException("manual_integers doesn't exists.");
         }
 
