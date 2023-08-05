@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 
@@ -40,17 +41,36 @@ public class FloatMeta extends Meta {
 
     public static FloatMeta getMetaByMap(String key, Map<String, Object> map) {
         Boolean isManual = (Boolean) map.get("is_manual");
-        List<Float> manualValues = (List<Float>) map.get("manual_values");
-        Float minValue = (Float) map.get("min_value");
-        Float maxValue = (Float) map.get("max_value");
+        List<Double> inputManualValues = (List<Double>) map.get("manual_values");
+        Double inputMinValue = (Double) map.get("min_value");
+        Double inputMaxValue = (Double) map.get("max_value");
+        FloatMeta floatMeta;
 
-        if (isManual && manualValues == null) {
-            throw new RuntimeException("manual_integers doesn't exists.");
+        if (isManual) {
+            if (inputManualValues == null) {
+                throw new RuntimeException("manual_values of " + key + " doesn't exists.");
+            }
+
+            floatMeta = FloatMeta.builder()
+                    .isManual(true)
+                    .manualValues(inputManualValues.stream().map(Double::floatValue).collect(Collectors.toList()))
+                    .build();
+        } else {
+            if (inputMinValue == null) {
+                throw new RuntimeException("min_value of " + key + " doesn't exists.");
+            }
+            else if (inputMaxValue == null) {
+                throw new RuntimeException("min_value of " + key + " doesn't exists.");
+            }
+
+            floatMeta = FloatMeta.builder()
+                    .isManual(false)
+                    .minValue(inputMinValue.floatValue())
+                    .maxValue(inputMaxValue.floatValue())
+                    .build();
         }
 
-        FloatMeta doubleMeta = new FloatMeta(isManual, manualValues, minValue, maxValue);
-        doubleMeta.validCheck(key);
-
-        return doubleMeta;
+        floatMeta.validCheck(key);
+        return floatMeta;
     }
 }

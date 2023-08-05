@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Builder
 @Getter
@@ -39,16 +40,36 @@ public class IntegerMeta extends Meta {
 
     public static IntegerMeta getMetaByMap(String key, Map<String, Object> map) {
         Boolean isManual = (Boolean) map.get("is_manual");
-        List<Integer> manualValues = (List<Integer>) map.get("manual_values");
-        Integer minValue = (Integer) map.get("min_value");
-        Integer maxValue = (Integer) map.get("max_value");
+        List<Double> inputManualValues = (List<Double>) map.get("manual_values");
+        Double inputMinValue = (Double) map.get("min_value");
+        Double inputMaxValue = (Double) map.get("max_value");
+        IntegerMeta integerMeta;
 
-        if (isManual && manualValues == null) {
-            throw new RuntimeException("manual_values doesn't exists.");
+        if (isManual) {
+            if (inputManualValues == null) {
+                throw new RuntimeException("manual_values of " + key + " doesn't exists.");
+            }
+
+            integerMeta = IntegerMeta.builder()
+                            .isManual(true)
+                            .manualValues(inputManualValues.stream().map(Double::intValue).collect(Collectors.toList()))
+                            .build();
+        } else {
+            if (inputMinValue == null) {
+                throw new RuntimeException("min_value of " + key + " doesn't exists.");
+            }
+            else if (inputMaxValue == null) {
+                throw new RuntimeException("min_value of " + key + " doesn't exists.");
+            }
+
+            integerMeta = IntegerMeta.builder()
+                    .isManual(false)
+                    .minValue(inputMinValue.intValue())
+                    .maxValue(inputMaxValue.intValue())
+                    .build();
         }
-        IntegerMeta integerMeta = new IntegerMeta(isManual, manualValues, minValue, maxValue);
-        integerMeta.validCheck(key);
 
+        integerMeta.validCheck(key);
         return integerMeta;
     }
 }

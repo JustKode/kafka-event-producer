@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 
@@ -41,15 +42,35 @@ public class DoubleMeta extends Meta {
 
     public static DoubleMeta getMetaByMap(String key, Map<String, Object> map) {
         Boolean isManual = (Boolean) map.get("is_manual");
-        List<Double> manualValues = (List<Double>) map.get("manual_doubles");
-        Double minValue = (Double) map.get("min_value");
-        Double maxValue = (Double) map.get("max_value");
+        List<Double> inputManualValues = (List<Double>) map.get("manual_values");
+        Double inputMinValue = (Double) map.get("min_value");
+        Double inputMaxValue = (Double) map.get("max_value");
+        DoubleMeta doubleMeta;
 
-        if (isManual && manualValues == null) {
-            throw new RuntimeException("manual_integers doesn't exists.");
+        if (isManual) {
+            if (inputManualValues == null) {
+                throw new RuntimeException("manual_values of " + key + " doesn't exists.");
+            }
+
+            doubleMeta = DoubleMeta.builder()
+                    .isManual(true)
+                    .manualValues(inputManualValues)
+                    .build();
+        } else {
+            if (inputMinValue == null) {
+                throw new RuntimeException("min_value of " + key + " doesn't exists.");
+            }
+            else if (inputMaxValue == null) {
+                throw new RuntimeException("min_value of " + key + " doesn't exists.");
+            }
+
+            doubleMeta = DoubleMeta.builder()
+                    .isManual(false)
+                    .minValue(inputMinValue)
+                    .maxValue(inputMaxValue)
+                    .build();
         }
 
-        DoubleMeta doubleMeta = new DoubleMeta(isManual, manualValues, minValue, maxValue);
         doubleMeta.validCheck(key);
         return doubleMeta;
     }

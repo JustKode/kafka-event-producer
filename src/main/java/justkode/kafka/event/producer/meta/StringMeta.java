@@ -52,13 +52,13 @@ public class StringMeta extends Meta {
     public static StringMeta getMetaByMap(String key, Map<String, Object> map) {
         Boolean isManual = (Boolean) map.get("is_manual");
         List<String> manualValues = (List<String>) map.get("manual_values");
-        Integer minLength = (Integer) map.get("min_length");
-        Integer maxLength = (Integer) map.get("max_length");
+        Double minLength = (Double) map.get("min_length");
+        Double maxLength = (Double) map.get("max_length");
 
         if (isManual && manualValues == null) {
             throw new RuntimeException("manual_integers doesn't exists.");
         }
-        StringMeta stringMeta = new StringMeta(isManual, manualValues, minLength, maxLength);
+        StringMeta stringMeta = new StringMeta(isManual, manualValues, minLength.intValue(), maxLength.intValue());
         stringMeta.validCheck(key);
 
         return stringMeta;

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 
@@ -41,16 +42,36 @@ public class LongMeta extends Meta {
 
     public static LongMeta getMetaByMap(String key, Map<String, Object> map) {
         Boolean isManual = (Boolean) map.get("is_manual");
-        List<Long> manualValues = (List<Long>) map.get("manual_values");
-        Long minValue = (Long) map.get("min_value");
-        Long maxValue = (Long) map.get("max_value");
+        List<Double> inputManualValues = (List<Double>) map.get("manual_values");
+        Double inputMinValue = (Double) map.get("min_value");
+        Double inputMaxValue = (Double) map.get("max_value");
+        LongMeta longMeta;
 
-        if (isManual && manualValues == null) {
-            throw new RuntimeException("manual_integers doesn't exists.");
+        if (isManual) {
+            if (inputManualValues == null) {
+                throw new RuntimeException("manual_values of " + key + " doesn't exists.");
+            }
+
+            longMeta = LongMeta.builder()
+                    .isManual(true)
+                    .manualValues(inputManualValues.stream().map(Double::longValue).collect(Collectors.toList()))
+                    .build();
+        } else {
+            if (inputMinValue == null) {
+                throw new RuntimeException("min_value of " + key + " doesn't exists.");
+            }
+            else if (inputMaxValue == null) {
+                throw new RuntimeException("min_value of " + key + " doesn't exists.");
+            }
+
+            longMeta = LongMeta.builder()
+                    .isManual(false)
+                    .minValue(inputMinValue.longValue())
+                    .maxValue(inputMaxValue.longValue())
+                    .build();
         }
-        LongMeta longMeta = new LongMeta(isManual, manualValues, minValue, maxValue);
-        longMeta.validCheck(key);
 
+        longMeta.validCheck(key);
         return longMeta;
     }
 }
