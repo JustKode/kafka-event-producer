@@ -5,8 +5,20 @@
     "min_value": 1,
     "max_value": 100
   },
-  "score": {
+  "score_a": {
     "type": "float",
+    "is_manual": false,
+    "min_value": 1.0,
+    "max_value": 10.0
+  },
+  "cost": {
+    "type": "long",
+    "is_manual": false,
+    "min_value": 1,
+    "max_value": 10
+  },
+  "score_b": {
+    "type": "double",
     "is_manual": false,
     "min_value": 1.0,
     "max_value": 10.0

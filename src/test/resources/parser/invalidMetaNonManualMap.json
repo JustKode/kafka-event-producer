@@ -3,8 +3,18 @@
     "type": "int",
     "is_manual": false
   },
-  "score": {
+  "score_a": {
     "type": "float",
+    "is_manual": false,
+    "min_value": 1.0
+  },
+  "cost": {
+    "type": "long",
+    "is_manual": false,
+    "max_value": 1.0
+  },
+  "score_b": {
+    "type": "double",
     "is_manual": false,
     "min_value": 1.0
   },

@@ -4,8 +4,18 @@
     "is_manual": true,
     "manual_values": [1, 2, 3, 4]
   },
-  "score": {
+  "score_a": {
     "type": "float",
+    "is_manual": true,
+    "manual_values": [1.0, 2.0, 3.0, 4.0]
+  },
+  "cost": {
+    "type": "long",
+    "is_manual": true,
+    "manual_values": [1, 2, 3, 4]
+  },
+  "score_b": {
+    "type": "double",
     "is_manual": true,
     "manual_values": [1.0, 2.0, 3.0, 4.0]
   },
