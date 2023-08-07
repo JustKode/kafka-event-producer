@@ -54,11 +54,23 @@ public class StringMeta extends Meta {
         List<String> manualValues = (List<String>) map.get("manual_values");
         Double minLength = (Double) map.get("min_length");
         Double maxLength = (Double) map.get("max_length");
+        StringMeta stringMeta;
 
-        if (isManual && manualValues == null) {
-            throw new RuntimeException("manual_integers doesn't exists.");
+        if (isManual) {
+            if (manualValues == null) {
+                throw new RuntimeException("manual_integers doesn't exists.");
+            }
+            stringMeta = StringMeta.builder()
+                            .isManual(true)
+                            .manualValues(manualValues)
+                            .build();
+        } else {
+            stringMeta = StringMeta.builder()
+                            .isManual(false)
+                            .minLength(minLength.intValue())
+                            .maxLength(maxLength.intValue())
+                            .build();
         }
-        StringMeta stringMeta = new StringMeta(isManual, manualValues, minLength.intValue(), maxLength.intValue());
         stringMeta.validCheck(key);
 
         return stringMeta;
