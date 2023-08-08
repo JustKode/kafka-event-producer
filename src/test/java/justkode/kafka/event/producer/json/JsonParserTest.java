@@ -1,12 +1,18 @@
 
 package justkode.kafka.event.producer.json;
 
-import justkode.kafka.event.producer.meta.Meta;
+import justkode.kafka.event.producer.meta.*;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 @Slf4j
 class JsonParserTest {
@@ -25,7 +31,6 @@ class JsonParserTest {
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(streamReader);
 
-        String result = "";
         StringBuilder sb = new StringBuilder();
         String line;
 
@@ -40,44 +45,52 @@ class JsonParserTest {
     }
 
     @Test
-    void testValidMetaManualMapJson() {
-        try {
-            String string = getStringFromFile("validMetaManualMap.json");
-            System.out.println(string);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    void testValidMetaManualMapJson() throws IOException {
+        String string = getStringFromFile("validMetaManualMap.json");
+        Map<String, Meta> jsonToMetaMap = JsonParser.getJsonToMetaMap(string);
+
+        IntegerMeta idMeta = (IntegerMeta) jsonToMetaMap.get("id");
+        FloatMeta scoreAMeta = (FloatMeta) jsonToMetaMap.get("score_a");
+        LongMeta longMeta = (LongMeta) jsonToMetaMap.get("cost");
+        DoubleMeta scoreBMeta = (DoubleMeta) jsonToMetaMap.get("score_b");
+        StringMeta serialNumberMeta = (StringMeta) jsonToMetaMap.get("serial_number");
+
+        assertThat(idMeta.getRandomValue()).isIn(1, 2, 3, 4);
+        assertThat(scoreAMeta.getRandomValue()).isIn(1.0f, 2.0f, 3.0f, 4.0f);
+        assertThat(longMeta.getRandomValue()).isIn(1L, 2L, 3L, 4L);
+        assertThat(scoreBMeta.getRandomValue()).isIn(1.0, 2.0, 3.0, 4.0);
+        assertThat(serialNumberMeta.getRandomValue()).isIn("A100000000", "B100000000", "C100000000");
     }
 
     @Test
-    void testValidMetaNonManualMapJson() {
-        try {
-            String string = getStringFromFile("validMetaNonManualMap.json");
-            System.out.println(string);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    void testValidMetaNonManualMapJson() throws IOException {
+        String string = getStringFromFile("validMetaNonManualMap.json");
+        Map<String, Meta> jsonToMetaMap = JsonParser.getJsonToMetaMap(string);
+
+        IntegerMeta idMeta = (IntegerMeta) jsonToMetaMap.get("id");
+        FloatMeta scoreAMeta = (FloatMeta) jsonToMetaMap.get("score_a");
+        LongMeta longMeta = (LongMeta) jsonToMetaMap.get("cost");
+        DoubleMeta scoreBMeta = (DoubleMeta) jsonToMetaMap.get("score_b");
+        StringMeta serialNumberMeta = (StringMeta) jsonToMetaMap.get("serial_number");
+
+        assertThat(idMeta.getRandomValue()).isBetween(1, 100);
+        assertThat(scoreAMeta.getRandomValue()).isBetween(1.0f, 10.0f);
+        assertThat(longMeta.getRandomValue()).isBetween(1L, 10L);
+        assertThat(scoreBMeta.getRandomValue()).isBetween(1.0, 10.0);
+        assertThat(serialNumberMeta.getRandomValue().length()).isEqualTo(10);
     }
 
 
     @Test
-    void testInvalidMetaManualMapJson() {
-        try {
-            String string = getStringFromFile("invalidMetaManualMap.json");
-            System.out.println(string);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    void testInvalidMetaManualMapJson() throws IOException {
+        String string = getStringFromFile("invalidMetaManualMap.json");
+        assertThrows(RuntimeException.class, () -> JsonParser.getJsonToMetaMap(string));
     }
 
 
     @Test
-    void testInvalidMetaNonManualMapJson() {
-        try {
-            String string = getStringFromFile("invalidMetaNonManualMap.json");
-            System.out.println(string);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    void testInvalidMetaNonManualMapJson() throws IOException {
+        String string = getStringFromFile("invalidMetaNonManualMap.json");
+        assertThrows(RuntimeException.class, () -> JsonParser.getJsonToMetaMap(string));
     }
 }
