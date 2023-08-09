@@ -23,5 +23,4 @@ public class JsonUtil {
 
         return sb.toString();
     }
-
 }
