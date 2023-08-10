@@ -3,8 +3,41 @@
  */
 package justkode.kafka.event.producer;
 
-public class KafkaProducer {
-    public static void main(String[] args) {
+import justkode.kafka.event.producer.worker.ProducerWorker;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
+@Slf4j
+public class KafkaProducer {
+    private final static List<ProducerWorker> producerWorkers = new ArrayList<>();
+
+    public static void main(String[] args) {
+        String filePath = System.getProperty("filePath");
+        String recordsPerSecond = System.getProperty("recordsPerSecond");
+        String kafkaEndpoint = System.getProperty("kafkaEndpoint");
+
+        if (filePath == null) {
+            throw new RuntimeException("filePath is null. Please fill this parameter");
+        } else if (recordsPerSecond == null) {
+            throw new RuntimeException("recordsPerSecond is null. Please fill this parameter");
+        } else if (kafkaEndpoint == null) {
+            throw new RuntimeException("kafkaEndpoint is null. Please fill this parameter");
+        }
+
+        log.info("filePath: " + filePath);
+        log.info("recordsPerSecond: " + recordsPerSecond);
+        log.info("kafkaEndpoint: " + kafkaEndpoint);
+    }
+
+    static class ShutdownThread extends Thread {
+        @Override
+        public void run() {
+            producerWorkers.forEach(ProducerWorker::shutdown);
+        }
     }
 }
